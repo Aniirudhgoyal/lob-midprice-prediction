@@ -17,7 +17,7 @@ Predicting short-term mid-price direction on NASDAQ AAPL using limit order book 
 
 ## What This Project Does
 
-For each snapshot of the AAPL limit order book (10 levels, 400K snapshots across one trading day), this model predicts whether the mid-price will rise, fall, or stay flat 50 events into the future. It is trained on **36 engineered microstructure features** including order-flow imbalance (multiple variants), the microprice signal, weighted book pressure, rolling volatility, message-flow rates, and inter-event timing.
+For each snapshot of the AAPL limit order book (10 levels, 400K snapshots across one trading day), this model predicts whether the mid-price will rise, fall, or stay flat 50 events into the future. The current model is the result of one major iteration: diagnosing price-level leakage in the first attempt and retraining on stationary features only. It is trained on **36 engineered microstructure features** including order-flow imbalance (multiple variants), the microprice signal, weighted book pressure, rolling volatility, message-flow rates, and inter-event timing.
 
 ## Key Plots
 
@@ -27,7 +27,7 @@ Liquidity heatmap of the full 10-level book over ~5,000 subsampled events. Brigh
 
 ### Confusion Matrix
 ![Confusion matrix](outputs/06_confusion_matrix.png)
-Final model on the held-out test set. The model correctly identifies 38% of DOWN moves and 31% of UP moves, with off-diagonal "catastrophic" errors (DOWN→UP and UP→DOWN) below 22% in both directions.
+Final model on the held-out test set. The model correctly identifies 38% of DOWN moves and 31% of UP moves. The "catastrophic" off-diagonal errors are asymmetric — DOWN→UP at 14% but UP→DOWN at 21%, suggesting residual difficulty distinguishing genuine selling pressure from temporary pullbacks during uptrends.
 
 ### Feature Importance
 ![Feature importance](outputs/07_feature_importance.png)
@@ -83,6 +83,19 @@ The signal generates +$309 raw profit (Sharpe +0.34) across 22,000 trades. Cross
 - **Static threshold.** The labeling threshold was tuned manually; an adaptive volatility-scaled threshold (e.g., σ-based) would generalize better across regimes.
 
 ## Repository Structure
+
+```
+lob-midprice-prediction/
+├── data/                  # LOBSTER files (gitignored)
+├── notebooks/
+│   ├── 01_explore.ipynb   # Stage 1-2: data loading and EDA
+│   ├── 03_features.ipynb  # Stage 3: feature engineering (36 features)
+│   └── 04_model.ipynb     # Stage 4: model training, evaluation, backtest
+├── outputs/               # All saved plots
+├── requirements.txt
+└── README.md
+```
+
 
 
 ## Reproducing Results
