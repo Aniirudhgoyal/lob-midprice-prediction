@@ -2,6 +2,26 @@
 
 Predicting short-term mid-price direction on NASDAQ AAPL using limit order book microstructure features and gradient boosting.
 
+## Motivation
+
+I'm a Chemical Engineering undergraduate at IIT Delhi targeting quant research and 
+trading roles in the 2026 intern season. Coming from a non-CS branch, I needed a 
+project that demonstrated three things at once: that I can work with real, messy, 
+institutional-scale market data; that I understand the statistical and economic 
+ideas behind high-frequency trading (not just "applying ML to finance"); and that 
+I can ship end-to-end research, not just train a notebook model.
+
+I picked limit order book mid-price prediction because it sits at the intersection 
+of all three. The dataset is real (NASDAQ ITCH-decoded ticks via LOBSTER, the same 
+format hedge funds pay for), the problem is well-studied so my results can be 
+benchmarked against academic baselines (Cont-Stoikov, DeepLOB), and the engineering 
+spans the full stack — data wrangling at the 400K-row scale, feature design rooted 
+in microstructure theory, ML diagnostics, and a transaction-cost-aware backtest 
+that asks the only question that ultimately matters: *would this make money?*
+
+The answer turned out to be more interesting than a simple yes/no — which is what 
+makes this project worth reading.
+
 ## Headline Results
 
 | Metric | Value |
